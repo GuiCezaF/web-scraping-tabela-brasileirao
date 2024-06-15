@@ -7,4 +7,4 @@ Desenvolvido para um projeto da materia de Sistemas Operacionais
 -[X] Scraping da tabela no G1
 -[X] Tratar os possíveis erros
 -[X] Exibir no console a tabela formatada
--[ ] Configurar o docker
+-[X] Configurar o docker
