@@ -20,6 +20,7 @@ def Main() -> None:
       return print("Utilize uma opção valida")
     if tipo_retorno == "excel":
       MontarTabelaExcel(serie)
-    
+    if tipo_retorno == "terminal":
+      MontarTabelaTerminal(serie)
 
 Main()
