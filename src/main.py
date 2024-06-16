@@ -1,51 +1,4 @@
-import pandas as pd
-from requests_html import HTMLSession
-
-session = HTMLSession()
-
-def ObtemTabela(serie: str) -> list:
-  try:
-    url= f"https://www.gazetaesportiva.com/campeonatos/brasileiro-serie-{serie}"
-    req = session.get(url)
-
-    elemento_nome_times: list = req.html.find("td.table__team")
-    elemento_status: list = req.html.find("td.table__stats")
-    
-    nome_times = [elemento.text for elemento in elemento_nome_times]
-    status = [elemento.text for elemento in elemento_status]
-    pontos_times = status[::9]
-
-    return nome_times, pontos_times
-  except Exception:
-    print(f"Erro ao obter a tabela\n {Exception}")
-    
-def MontarTabela(serie: str):
-  times, pontos = ObtemTabela(serie)
-  
-  df = pd.DataFrame({
-    'Time': times,
-    'Pontuação': pontos
-  })
-  df['Posição'] = range(1, len(df) + 1)
-  df = df[['Posição', 'Time', 'Pontuação']]
-  
-  col_widths = {
-        'Posição': 8,
-        'Time': 50,
-        'Pontuação': 10
-    }
-  
-  header = '|'.join([f"{col:^{col_widths[col]}}" for col in df.columns])
-  separator = '+' + '+'.join(['-' * col_widths[col] for col in df.columns]) + '+'
-  
-  print(separator)
-  print(f"|{header}|")
-  print(separator)
-
-  for _, row in df.iterrows():
-      row_str = '|'.join([f"{str(row[col]):^{col_widths[col]}}" for col in df.columns])
-      print(f"|{row_str}|")
-      print(separator)
+from services.montar_tabela import  MontarTabelaExcel, MontarTabelaTerminal
 
 def Main() -> None:
     print('''
@@ -58,11 +11,15 @@ def Main() -> None:
           Digite A (para a serie A) 
           Digite B (para a serie B) 
           ''')
-    serie = input("Qual divisão gostaria de ver a tabela? ").lower()
-    
+    serie = input("Qual divisão gostaria de ver a tabela? ").lower()  
     if serie != 'a' and serie != 'b':
       return print("Utilize uma opção valida")
     
-    MontarTabela(serie)
+    tipo_retorno = input("Deseja ver no termianal ou exportar para excel? (EXCEL ou TERMINAL)").lower()
+    if tipo_retorno != "excel" and tipo_retorno != "terminal":
+      return print("Utilize uma opção valida")
+    if tipo_retorno == "excel":
+      MontarTabelaExcel(serie)
+    
 
 Main()

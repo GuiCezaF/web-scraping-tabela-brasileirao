@@ -1,3 +1,4 @@
 requests-html
 lxml_html_clean
 pandas
+openpyxl
