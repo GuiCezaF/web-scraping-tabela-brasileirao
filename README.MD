@@ -6,7 +6,7 @@ atualiza dinamicamente com o andar do campeonato
 
 ## O QUE FAZER?
 
--[X] Scraping da tabela no G1
+-[X] Scraping da tabela do gazetaesportiva
 -[X] Tratar os possíveis erros
 -[X] Exibir no console a tabela formatada
 -[X] Configurar o docker
